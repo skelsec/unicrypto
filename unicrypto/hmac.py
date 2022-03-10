@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 import hmac as __builtinHMAC
 from unicrypto import hashlib
+from unicrypto import logging
 
 class hmacBASE():
 	def __init__(self, key):
@@ -38,6 +39,7 @@ class hmacBASE():
 		raise NotImplementedError()
 
 def hmacselector(key:bytes,  msg:bytes = None, digestmod:str = ''):
+	logging.debug('hmac using "builtin" for "%s"' % digestmod)
 	return __builtinHMAC.new(key, msg, digestmod)
 
 new = hmacselector

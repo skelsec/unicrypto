@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from unicrypto import get_preferred_cipher
 import enum
+from unicrypto import logging
 
 class cipherMODE(enum.Enum):
 	ECB = enum.auto()

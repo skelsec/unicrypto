@@ -148,6 +148,20 @@ aes_ctr_long = [
 	('006bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710'*11,'2b7e151628aed2a6abf7158809cf4f3c','ECE71ECD7A4E3C2F643B2B0BFBED32F31C8551B6306D52CF843EC0B85015DC203B1C0B643E2A6BABAF5133DA0EA06616076AA6BBB52ED75DC3A71A9A6E8AC7C9A00D2C39AA68BF4E6FFED9AAEE5AD6914FB3EA77C7B61FF6BF564F2F1225ACB4B5889CB1559888A5817849C382E168482F75381F63868C468E4D1583B1FE71DD808CB94D8150AAB9D530A0FC17CDE748E95545D8A033B2F61F1954D0C0226168022E1CD7E031C57D048AC560F152960F47705E174D956D4BB53AE80BFFCD1BD569ED8EFFA223C00558B702405F33E6E0EDB2D9B0C148A1441CC80D6ABBCE785AA1B9DAB7CB8832F1B12D2EE60EE2DFCA37942CA1724E5602B7B70525AC9662028A22DB234676615DB474538CBC8D197F38C88BCC4F9E8D207538CA18DE5F095420A2E4D5868CEBB8B34A9377DC52D119790B65210F1B346F5E00D9BD00A8847048913D80726B9B745D565E6284B986DBAEA997FFC5A0DE5051527D44B2C1266DBC9130A6EB15F37A0F00B6286D6678CA651C07743BD37F2E8F6A94F5ED8C63428AE4883A9695183807E104BC335C64FEAAC40A605913DF98FF44E0801B31A968CCE5DCAFADE1E017FA711E05FF5A54BFA1999C2C463F97A3A66B30211BD306C8911C98F8EE5EF47A54746A4D16B7C7424A6954B4FC3BCF1A41BDE8A19CE1027AE86A320D0E5E7D3C7E50CFD0C4665B811D86C313F09ADE5B4DBE017231859881E5873E9EDB2011CF5920D2F7277C4DE1AC430A1849F0B870A69ABE701B6D0B5123E5FF53395409177CF84BF41EC33C5E4BCC2CF29258DC7C260471AABDA49FDE62915758EE4E578D0F7698E6456BC144573739D5D508CC76B389359D2A0ECB5B7EE5FCB4C3151D5AF7C71819EA3DD5F36C7B27E551FD2373D07FFDC76A13FC4B10A6F29A83D6F465ACB6960671EACF21A3E1CB4411C4DAA0C2A87DAED28AEE60B7EC0258A9AF125F2DDC80B9877EFE0F372D9B832C786770A84EA1A07CB6E1A9907D651BBD0EFDEF2AFFC3','f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'),
 ]
 
+aes_ccm = [
+	#plain, key, cipher, nonce, adata, asize
+	('08090A0B0C0D0E0F101112131415161718191A1B1C1D1E', 'C0C1C2C3C4C5C6C7C8C9CACBCCCDCECF', '588C979A61C663D2F066D0C2C0F989806D5F6B61DAC38417E8D12CFDF926E0', '00000003020100A0A1A2A3A4A5', '0001020304050607', 8),
+	('08090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F', 'C0C1C2C3C4C5C6C7C8C9CACBCCCDCECF', '72C91A36E135F8CF291CA894085C87E3CC15C439C9E43A3BA091D56E10400916', '00000004030201A0A1A2A3A4A5', '0001020304050607', 8),
+	#???('08090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F20', 'C0C1C2C3C4C5C6C7C8C9CACBCCCDCECF', '51B1E5F44A197D1DA46B0F8E2D282AE871E838BB64DA8596574ADAA76FBD9FB0C5', '00000003020100A0A1A2A3A4A5', '0001020304050607', 8),
+	('0C0D0E0F101112131415161718191A1B1C1D1E', 'C0C1C2C3C4C5C6C7C8C9CACBCCCDCECF', 'A28C6865939A9A79FAAA5C4C2A9D4A91CDAC8C96C861B9C9E61EF1', '00000006050403A0A1A2A3A4A5', '000102030405060708090A0B', 8),
+	('0C0D0E0F101112131415161718191A1B1C1D1E1F', 'C0C1C2C3C4C5C6C7C8C9CACBCCCDCECF', 'DCF1FB7B5D9E23FB9D4E131253658AD86EBDCA3E51E83F077D9C2D93', '00000007060504A0A1A2A3A4A5', '000102030405060708090A0B', 8),
+	('0C0D0E0F101112131415161718191A1B1C1D1E1F20', 'C0C1C2C3C4C5C6C7C8C9CACBCCCDCECF', '6FC1B011F006568B5171A42D953D469B2570A4BD87405A0443AC91CB94', '00000008070605A0A1A2A3A4A5', '000102030405060708090A0B', 8),
+	('08090A0B0C0D0E0F101112131415161718191A1B1C1D1E', 'C0C1C2C3C4C5C6C7C8C9CACBCCCDCECF', '0135D1B2C95F41D5D1D4FEC185D166B8094E999DFED96C048C56602C97ACBB7490', '00000009080706A0A1A2A3A4A5', '0001020304050607', 10),
+	('08090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F', 'C0C1C2C3C4C5C6C7C8C9CACBCCCDCECF', '7B75399AC0831DD2F0BBD75879A2FD8F6CAE6B6CD9B7DB24C17B4433F434963F34B4', '0000000A090807A0A1A2A3A4A5', '0001020304050607', 10),
+	('08E8CF97D820EA258460E96AD9CF5289054D895CEAC47C', 'D7828D13B2B0BDC325A76236DF93CC6B', '4CB97F86A2A4689A877947AB8091EF5386A6FFBDD080F8E78CF7CB0CDDD7B3', '00412B4EA9CDBE3C9696766CFA', '0BE1A88BACE018B1', 8),
+	('ABF21C0B02FEB88F856DF4A37381BCE3CC128517D4', 'D7828D13B2B0BDC325A76236DF93CC6B', 'F32905B88A641B04B9C9FFB58CC390900F3DA12AB16DCE9E82EFA16DA62059', '008D493B30AE8B3C9696766CFA', '6E37A6EF546D955D34AB6059', 10),
+]
+
 
 
 class AESTest:
@@ -275,6 +289,26 @@ class AESTest:
 
 		return True
 	
+	def ccm_enc(self, cipherobj, vector):
+		for i, res in enumerate(vector):
+			plaintext, key, ciphertext, nonce,adata, asize = res
+			plaintext = bytes.fromhex(plaintext)
+			key = bytes.fromhex(key)
+			ciphertext = bytes.fromhex(ciphertext)
+			nonce = bytes.fromhex(nonce)
+			adata = bytes.fromhex(adata)
+
+			ctx = cipherobj(key, symmetric.MODE_CCM, nonce, segment_size=asize)
+			enc_data, mac = ctx.encrypt(plaintext, adata)
+			if (enc_data+mac) != ciphertext:
+				raise Exception('Ciphertext doesnt match to vector! CCM %s Cipher: %s Vector: %s' % (i, enc_data, ciphertext))
+			ctx = cipherobj(key, symmetric.MODE_CCM, nonce, segment_size=asize)
+			dec_data = ctx.decrypt(enc_data, adata, mac)
+			if dec_data != plaintext:
+				raise Exception('Decrypted data doesnt match plaintext! CCM %s Cipher: \r\n%s \r\nPlaintext: \r\n%s' % (i, dec_data.hex(), plaintext.hex()))
+		return True
+
+	
 	def ecb_enc(self, cipherobj, vector):
 		for i, res in enumerate(vector):
 			plaintext, key, ciphertext = res
@@ -362,6 +396,8 @@ class PycryptoDomeAES(AESTest, unittest.TestCase):
 	
 	def test_ctr_long(self):
 		self.ctr_enc(self.cipherobj, aes_ctr_long)
+	def test_ccm(self):
+		self.ccm_enc(self.cipherobj, aes_ccm)
 
 class CryptographyAES(AESTest, unittest.TestCase):
 
@@ -430,76 +466,11 @@ class CryptographyAES(AESTest, unittest.TestCase):
 	
 	def test_ctr_long(self):
 		self.ctr_enc(self.cipherobj, aes_ctr_long)
+	
+	def test_ccm(self):
+		self.ccm_enc(self.cipherobj, aes_ccm)
 
-class CryptographyAES(AESTest, unittest.TestCase):
-
-	def setUp(self):
-		self.cipherobj = get_cipher_by_name('AES', 'cryptography')
-	
-	def test_ecb_128(self):
-		self.ecb_enc(self.cipherobj, aes_128_ecb)
-	
-	def test_ecb_192(self):
-		self.ecb_enc(self.cipherobj, aes_192_ecb)
-	
-	def test_ecb_256(self):
-		self.ecb_enc(self.cipherobj, aes_256_ecb)
-	
-	def test_ecb_long(self):
-		self.ecb_enc(self.cipherobj, aes_ecb_long)
-	
-	def test_cbc_128(self):
-		self.cbc_enc(self.cipherobj, aes_cbc_128)
-	
-	def test_cbc_192(self):
-		self.cbc_enc(self.cipherobj, aes_cbc_192)
-	
-	def test_cbc_256(self):
-		self.cbc_enc(self.cipherobj, aes_cbc_256)
-	
-	def test_cbc_long(self):
-		self.cbc_enc(self.cipherobj, aes_cbc_long)
-	
-	def test_cfb_fb1(self):
-		self.cfb_8_enc(self.cipherobj, aes_cfb_feedbacksize_1, 8)
-
-	def test_cfb_128_fb16(self):
-		self.cfb_enc(self.cipherobj, aes_cfb_128_feedbacksize_16, 128)
-	
-	def test_cfb_192_fb16(self):
-		self.cfb_enc(self.cipherobj, aes_cfb_192_feedbacksize_16, 128)
-
-	def test_cfb_256_fb16(self):
-		self.cfb_enc(self.cipherobj, aes_cfb_256_feedbacksize_16, 128)
-	
-	def test_cfb_long_fb16(self):
-		self.cfb_enc(self.cipherobj, aes_cfb_long, 128)
-	
-	def test_ofb_128(self):
-		self.ofb_enc(self.cipherobj, aes_ofb_128)
-	
-	def test_ofb_192(self):
-		self.ofb_enc(self.cipherobj, aes_ofb_192)
-
-	def test_ofb_256(self):
-		self.ofb_enc(self.cipherobj, aes_ofb_256)
-	
-	def test_ofb_long(self):
-		self.ofb_enc(self.cipherobj, aes_ofb_long)
-
-	def test_ctr_128(self):
-		self.ctr_enc(self.cipherobj, aes_ctr_128)
-	
-	def test_ctr_192(self):
-		self.ctr_enc(self.cipherobj, aes_ctr_192)
-
-	def test_ctr_256(self):
-		self.ctr_enc(self.cipherobj, aes_ctr_256)
-	
-	def test_ctr_long(self):
-		self.ctr_enc(self.cipherobj, aes_ctr_long)
-
-class CryptographyAES(AESTest, unittest.TestCase):
+class CryptoAES(AESTest, unittest.TestCase):
 
 	def setUp(self):
 		self.cipherobj = get_cipher_by_name('AES', 'crypto')
@@ -567,6 +538,8 @@ class CryptographyAES(AESTest, unittest.TestCase):
 	def test_ctr_long(self):
 		self.ctr_enc(self.cipherobj, aes_ctr_long)
 
+	def test_ccm(self):
+		self.ccm_enc(self.cipherobj, aes_ccm)
 
 class pureAES(AESTest, unittest.TestCase):
 
@@ -635,6 +608,9 @@ class pureAES(AESTest, unittest.TestCase):
 	
 	def test_ctr_long(self):
 		self.ctr_enc(self.cipherobj, aes_ctr_long)
+	
+	def test_ccm(self):
+		self.ccm_enc(self.cipherobj, aes_ccm)
 
 class MBEDTLSAES(AESTest, unittest.TestCase):
 
@@ -703,6 +679,9 @@ class MBEDTLSAES(AESTest, unittest.TestCase):
 	
 	def test_ctr_long(self):
 		self.ctr_enc(self.cipherobj, aes_ctr_long)
+	
+	def test_ccm(self):
+		self.ccm_enc(self.cipherobj, aes_ccm)
 
 if __name__ == '__main__':
 	unittest.main()

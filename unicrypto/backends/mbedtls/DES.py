@@ -15,13 +15,9 @@ class DES(symmetricBASE):
 			self._cipher = mbedcipher.DES.new(self.key, mbedcipher.MODE_CBC, self.IV)
 		else:
 			raise Exception('Unknown cipher mode!')
-		self._cipher.set_padding_mode(4)
 	
 	def __encrypt_inner(self, data):
 		res = self._cipher.encrypt(data)
-		if self.mode == cipherMODE.CBC:
-			self._cipher = mbedcipher.DES.new(self.key, mbedcipher.MODE_CBC, res)
-		self._cipher.set_padding_mode(4)
 		return res
 
 	def encrypt(self, data):
@@ -35,9 +31,6 @@ class DES(symmetricBASE):
 
 	def __decrypt_inner(self, data):
 		res = self._cipher.decrypt(data)
-		if self.mode == cipherMODE.CBC:
-			self._cipher = mbedcipher.DES.new(self.key, mbedcipher.MODE_CBC, data)
-		self._cipher.set_padding_mode(4)
 		return res
 	
 	def decrypt(self, data):

@@ -13,7 +13,6 @@ class TDES(symmetricBASE):
 			self._cipher = mbedcipher.DES3.new(self.key, mbedcipher.MODE_CBC, self.IV)
 		else:
 			raise Exception('Unknown cipher mode!')
-		self._cipher.set_padding_mode(4)
 	def encrypt(self, data):
 		return self._cipher.encrypt(data)
 	def decrypt(self, data):

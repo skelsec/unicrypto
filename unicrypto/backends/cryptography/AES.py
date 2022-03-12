@@ -25,7 +25,11 @@ class AES(symmetricBASE):
 				self.IV = modes.CFB(self.IV)
 		elif self.mode == cipherMODE.OFB:
 			self.IV = modes.OFB(self.IV)
-
+		
+		elif self.mode == cipherMODE.CCM:
+			from cryptography.hazmat.primitives.ciphers.aead import AESCCM
+			self._cipher = AESCCM(self.key, tag_length=self.segment_size)
+			return
 		else:
 			raise Exception('Unknown cipher mode!')
 
@@ -34,8 +38,15 @@ class AES(symmetricBASE):
 		self.encryptor = self._cipher.encryptor()
 		self.decryptor = self._cipher.decryptor()
 
-	def encrypt(self, data):
-		return self.encryptor.update(data)
+	def encrypt(self, data, aad = None):
+		if self.mode == cipherMODE.CCM:
+			res = self._cipher.encrypt(self.IV, data, aad)
+			return res[:-16], res[-16:]
+		else:
+			return self.encryptor.update(data)
 	
-	def decrypt(self, data):
-		return self.decryptor.update(data)
+	def decrypt(self, data, aad = None, mac = None):
+		if self.mode == cipherMODE.CCM:
+			return self._cipher.decrypt(self.IV, data+mac, aad)
+		else:
+			return self.decryptor.update(data)

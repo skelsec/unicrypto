@@ -20,22 +20,22 @@ class AES(symmetricBASE):
 			self._cipher = _pyCryptodomeAES.new(self.key, _pyCryptodomeAES.MODE_OFB, iv=self.IV)
 		elif self.mode == cipherMODE.CCM:
 			self._cipher = _pyCryptodomeAES.new(self.key, _pyCryptodomeAES.MODE_CCM, self.IV, mac_len= self.segment_size)
+		elif self.mode == cipherMODE.GCM:
+			self._cipher = _pyCryptodomeAES.new(self.key, _pyCryptodomeAES.MODE_GCM, self.IV, mac_len= self.segment_size)
 		else:
 			raise Exception('Unknown cipher mode!')
 		
 	def encrypt(self, data, aad = None):
-		if self.mode == cipherMODE.CCM:
+		if self.mode == cipherMODE.CCM or self.mode == cipherMODE.GCM:
 			self._cipher.update(aad)
-			ciphertext = self._cipher.encrypt(data)
-			mac = self._cipher.digest()
-			return ciphertext, mac
+			return self._cipher.encrypt_and_digest(data)
 		else:
 			return self._cipher.encrypt(data)
 	
 	def decrypt(self, data, aad = None, mac = None):
-		if self.mode == cipherMODE.CCM:
+		if self.mode == cipherMODE.CCM or self.mode == cipherMODE.GCM:
 			self._cipher.update(aad)
-			plaintext = self._cipher.encrypt(data)
-			return plaintext
+			return self._cipher.decrypt_and_verify(data, mac)
+			
 		else:
 			return self._cipher.decrypt(data)

@@ -25,7 +25,8 @@
 	              I'd say "use it with suspicion" but in truth: just do not use this at all outside of this library.
 """
 
-from unicrypto.backends.pure.external.AES import AESModeOfOperationCTR, AESModeOfOperationECB, Counter
+from Crypto.Cipher import AES
+from Crypto.Util import Counter
 
 def int_to_bytes(x: int, blocksize = 0) -> bytes:
 	if blocksize == 0:
@@ -69,7 +70,7 @@ class AES_GCM:
 		#	raise InvalidInputException('Master key should be 128-bit')
 
 		self.__master_key = master_key
-		self.__aes_ecb = AESModeOfOperationECB(self.__master_key)
+		self.__aes_ecb = AES.new(self.__master_key, AES.MODE_ECB)
 		self.__auth_key = self.__aes_ecb.encrypt(b'\x00' * 16)
 		self.__auth_key_int = int.from_bytes(self.__auth_key, byteorder='big', signed=False)
 
@@ -133,8 +134,12 @@ class AES_GCM:
 				iv_int = ctrval.to_bytes(16, byteorder='big', signed=False)	
 				ctrval += 1
 			
-			counter = Counter(initial_value=ctrval)
-			aes_ctr = AESModeOfOperationCTR(self.__master_key, counter=counter)
+			counter = Counter.new(
+				nbits=128,
+				prefix=b'',
+				initial_value=ctrval,  # notice this
+				allow_wraparound=False)
+			aes_ctr = AES.new(self.__master_key, AES.MODE_CTR, counter=counter)
 
 			if 0 != len_plaintext % 16:
 				padded_plaintext = plaintext + \
@@ -182,8 +187,12 @@ class AES_GCM:
 
 		len_ciphertext = len(ciphertext)
 		if len_ciphertext > 0:
-			counter = Counter(initial_value=ctrval)
-			aes_ctr = AESModeOfOperationCTR(self.__master_key, counter=counter)
+			counter = Counter.new(
+				nbits=128,
+				prefix=b'',
+				initial_value=ctrval,  # notice this
+				allow_wraparound=False)
+			aes_ctr = AES.new(self.__master_key, AES.MODE_CTR, counter=counter)
 			if 0 != len_ciphertext % 16:
 				padded_ciphertext = ciphertext + \
 					b'\x00' * (16 - len_ciphertext % 16)
@@ -195,3 +204,4 @@ class AES_GCM:
 			plaintext = b''
 
 		return plaintext
+

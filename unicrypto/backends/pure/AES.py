@@ -38,13 +38,21 @@ class AES(symmetricBASE):
 			ctr_start = Counter(int.from_bytes(t_nonce, byteorder='big', signed=False))
 			self._ccm_cipher_ctr = AESModeOfOperationCTR(self.key, ctr_start)
 			self._ccm_cipher_cbc = Encrypter(AESModeOfOperationCBC(self.key, iv=b'\x00'*16), padding = PADDING_NONE) # 16 is the blocksize
+		elif self.mode == cipherMODE.GCM:
+			from unicrypto.backends.pure.external.AES.AESGCM import AES_GCM
+			self._cipher = AES_GCM(self.key)
+
 		else:
 			raise Exception('Unknown cipher mode!')
 
 	def encrypt(self, data, aad = None):
 		if self.mode == cipherMODE.CCM:
 			return self.__ccm_encrypt(data, aad)
-		elif self.mode != cipherMODE.CFB:
+		
+		if self.mode == cipherMODE.GCM:
+			return self._cipher.encrypt(self.IV, data, aad)
+
+		if self.mode != cipherMODE.CFB:
 			in_buff = io.BytesIO(data)
 			out_buff = io.BytesIO()
 			encrypt_stream(self._cipher, in_buff, out_buff, padding = PADDING_NONE)
@@ -56,7 +64,11 @@ class AES(symmetricBASE):
 	def decrypt(self, data, aad = None, mac = None):
 		if self.mode == cipherMODE.CCM:
 			return self.__ccm_decrypt(data, aad, mac)
-		elif self.mode != cipherMODE.CFB:
+		
+		if self.mode == cipherMODE.GCM:
+			return self._cipher.decrypt(self.IV, data, mac, aad)
+
+		if self.mode != cipherMODE.CFB:
 			in_buff = io.BytesIO(data)
 			out_buff = io.BytesIO()
 			decrypt_stream(self._cipher, in_buff, out_buff, padding = PADDING_NONE)

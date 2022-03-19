@@ -35,12 +35,18 @@ class AES(symmetricBASE):
 			self._ccm_cipher_ctr = _pyCryptoAES.new(self.key, _pyCryptoAES.MODE_CTR, self.IV, counter=Counter.new(128, initial_value=int.from_bytes(t_nonce, byteorder='big', signed=False)))
 			self._ccm_cipher_cbc = _pyCryptoAES.new(self.key, _pyCryptoAES.MODE_CBC, b'\x00'*16)
 
+		elif self.mode == cipherMODE.GCM:
+			from unicrypto.backends.crypto.extra.AESGCM import AES_GCM
+			self._cipher = AES_GCM(self.key)
 		else:
 			raise Exception('Unknown cipher mode!')
 		
 	def encrypt(self, data, aad = None):
 		if self.mode == cipherMODE.CCM:
 			return self.__ccm_encrypt(data, aad)
+		
+		if self.mode == cipherMODE.GCM:
+			return self._cipher.encrypt(self.IV, data, aad)
 
 		if (self.mode == cipherMODE.CFB or self.mode == cipherMODE.OFB) and (self._cipher.block_size - len(data) % self._cipher.block_size) % self._cipher.block_size != 0:
 			padding_length = (self._cipher.block_size - len(data) % self._cipher.block_size) % self._cipher.block_size
@@ -52,12 +58,16 @@ class AES(symmetricBASE):
 	def decrypt(self, data, aad = None, mac = None):
 		if self.mode == cipherMODE.CCM:
 			return self.__ccm_decrypt(data, aad, mac)
+		
+		if self.mode == cipherMODE.GCM:
+			return self._cipher.decrypt(self.IV, data, mac, aad)
 
-		elif (self.mode == cipherMODE.CFB or self.mode == cipherMODE.OFB) and (self._cipher.block_size - len(data) % self._cipher.block_size) % self._cipher.block_size != 0:
+		if (self.mode == cipherMODE.CFB or self.mode == cipherMODE.OFB) and (self._cipher.block_size - len(data) % self._cipher.block_size) % self._cipher.block_size != 0:
 			padding_length = (self._cipher.block_size - len(data) % self._cipher.block_size) % self._cipher.block_size
 			padded_data = data + b'\x00'*padding_length
 			enc_data = self._cipher.decrypt(padded_data)
 			return enc_data[:len(data)]
+		
 		return self._cipher.decrypt(data)
 
 

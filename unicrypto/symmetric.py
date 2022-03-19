@@ -10,6 +10,7 @@ class cipherMODE(enum.Enum):
 	CCM = enum.auto()
 	CFB = enum.auto()
 	OFB = enum.auto()
+	GCM = enum.auto()
 
 MODE_ECB = cipherMODE.ECB
 MODE_CBC = cipherMODE.CBC
@@ -17,7 +18,7 @@ MODE_CTR = cipherMODE.CTR
 MODE_CCM = cipherMODE.CCM
 MODE_CFB = cipherMODE.CFB
 MODE_OFB = cipherMODE.OFB
-
+MODE_GCM = cipherMODE.GCM
 
 class symmetricBASE:
 	def __init__(self, key:bytes, mode:cipherMODE = cipherMODE.ECB, IV:bytes = None, segment_size:int= 128):

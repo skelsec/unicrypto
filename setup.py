@@ -44,7 +44,7 @@ setup(
 	],
 	
 	## these libraries are optional
-	## lib can work without additional deps
+	## lib can work without additional deps but it will be slow
 	install_requires=[
 		'pycryptodomex',
 	],

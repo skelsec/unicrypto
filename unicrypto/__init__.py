@@ -18,8 +18,8 @@ def import_from(module, name):
 pref_to_module = {
 	'mbedtls' : 'mbedtls',
 	'cryptography' : 'cryptography',
-	'pyCryptodome': 'pyCryptodome',
-	'pyCrypto' : 'pyCrypto',
+	'pyCryptodome': 'Crypto',
+	'pyCrypto' : 'pyCrypto', # remove the 'py' but you really shouldn't be using this...
 	'pure': 'pure',
 
 }
@@ -44,11 +44,11 @@ override_library = None
 for prefname in pref_to_module:
 	if importlib.util.find_spec(pref_to_module[prefname]) is not None:
 		for k in available_modules:
-			available_modules[k].append(pref_to_module[prefname])
+			available_modules[k].append(prefname)
 
 def get_cipher_by_name(ciphername, cryptolibname):
 	logging.debug('symmetric using "%s" for "%s"' % (cryptolibname, ciphername))
-	moduleName = 'unicrypto.backends.%s.%s' % (cryptolibname, ciphername)
+	moduleName = 'unicrypto.backends.%s.%s' % (cryptolibname.lower(), ciphername)
 	return import_from(moduleName , ciphername)
 
 

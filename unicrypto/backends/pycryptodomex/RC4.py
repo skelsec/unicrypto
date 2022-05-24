@@ -1,5 +1,5 @@
 
-from Crypto.Cipher import ARC4
+from Cryptodome.Cipher import ARC4
 from unicrypto.symmetric import symmetricBASE, cipherMODE
 
 class RC4(symmetricBASE):

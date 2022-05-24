@@ -1,5 +1,5 @@
 
-from Crypto.Cipher import DES as _pyCryptodomeDES
+from Cryptodome.Cipher import DES as _pyCryptodomeDES
 from unicrypto.symmetric import symmetricBASE, cipherMODE, expand_DES_key
 
 class DES(symmetricBASE):

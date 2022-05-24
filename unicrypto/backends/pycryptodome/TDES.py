@@ -1,5 +1,5 @@
 
-from Cryptodome.Cipher import DES3
+from Crypto.Cipher import DES3
 from unicrypto.symmetric import symmetricBASE, cipherMODE
 
 class TDES(symmetricBASE):

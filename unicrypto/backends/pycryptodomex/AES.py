@@ -1,6 +1,6 @@
 
-from Crypto.Cipher import AES as _pyCryptodomeAES
-from Crypto.Util import Counter
+from Cryptodome.Cipher import AES as _pyCryptodomeAES
+from Cryptodome.Util import Counter
 from unicrypto.symmetric import symmetricBASE, cipherMODE
 
 class AES(symmetricBASE):

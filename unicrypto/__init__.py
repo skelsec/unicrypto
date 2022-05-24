@@ -19,6 +19,7 @@ pref_to_module = {
 	'mbedtls' : 'mbedtls',
 	'cryptography' : 'cryptography',
 	'pyCryptodome': 'Crypto',
+	'pyCryptodomex': 'Cryptodome',
 	'pyCrypto' : 'pyCrypto', # remove the 'py' but you really shouldn't be using this...
 	'pure': 'pure',
 
@@ -26,10 +27,10 @@ pref_to_module = {
 
 # preferred modules for each cipher, in order of preferance
 preftable = {
-	'DES' : ['pyCryptodome','cryptography','pyCrypto','mbedtls','pure'], 
-	'TDES': ['pyCryptodome','cryptography','pyCrypto','mbedtls','pure'], 
-	'AES' : ['pyCryptodome','cryptography','pyCrypto','mbedtls','pure'], 
-	'RC4' : ['pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
+	'DES' : ['pyCryptodomex','pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
+	'TDES': ['pyCryptodomex','pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
+	'AES' : ['pyCryptodomex','pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
+	'RC4' : ['pyCryptodomex','pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
 }
 
 available_modules = {
@@ -69,7 +70,7 @@ def get_preferred_cipher(ciphername):
 			raise Exception('Could not find any modules to load cipher "%s"' % ciphername)
 	else:
 		selected_module = override_library
-	
+
 	#print('Preferred module selected for cipher %s is %s' % (ciphername, selected_module))
 	return get_cipher_by_name(ciphername, selected_module)
 

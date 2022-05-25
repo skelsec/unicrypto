@@ -4,8 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler()
-formatter = logging.Formatter(
-        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
@@ -18,11 +17,10 @@ def import_from(module, name):
 pref_to_module = {
 	'mbedtls' : 'mbedtls',
 	'cryptography' : 'cryptography',
-	'pyCryptodome': 'Crypto',
 	'pyCryptodomex': 'Cryptodome',
-	'pyCrypto' : 'pyCrypto', # remove the 'py' but you really shouldn't be using this...
-	'pure': 'pure',
-
+	# see https://github.com/Legrandin/pycryptodome/blob/master/Changelog.rst#30-24-june-2014
+	'pyCryptodome': 'Crypto.Cipher.Salsa20',
+	'pyCrypto' : 'Crypto.Random.OSRNG'
 }
 
 # preferred modules for each cipher, in order of preferance
@@ -46,6 +44,7 @@ for prefname in pref_to_module:
 	if importlib.util.find_spec(pref_to_module[prefname]) is not None:
 		for k in available_modules:
 			available_modules[k].append(prefname)
+
 
 def get_cipher_by_name(ciphername, cryptolibname):
 	logging.debug('symmetric using "%s" for "%s"' % (cryptolibname, ciphername))

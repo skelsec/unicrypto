@@ -4,8 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler()
-formatter = logging.Formatter(
-        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
@@ -18,18 +17,18 @@ def import_from(module, name):
 pref_to_module = {
 	'mbedtls' : 'mbedtls',
 	'cryptography' : 'cryptography',
-	'pyCryptodome': 'Crypto',
-	'pyCrypto' : 'pyCrypto', # remove the 'py' but you really shouldn't be using this...
-	'pure': 'pure',
-
+	'pyCryptodomex': 'Cryptodome',
+	# see https://github.com/Legrandin/pycryptodome/blob/master/Changelog.rst#30-24-june-2014
+	'pyCryptodome': 'Crypto.Cipher.Salsa20',
+	'pyCrypto' : 'Crypto.Random.OSRNG'
 }
 
 # preferred modules for each cipher, in order of preferance
 preftable = {
-	'DES' : ['pyCryptodome','cryptography','pyCrypto','mbedtls','pure'], 
-	'TDES': ['pyCryptodome','cryptography','pyCrypto','mbedtls','pure'], 
-	'AES' : ['pyCryptodome','cryptography','pyCrypto','mbedtls','pure'], 
-	'RC4' : ['pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
+	'DES' : ['pyCryptodomex','pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
+	'TDES': ['pyCryptodomex','pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
+	'AES' : ['pyCryptodomex','pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
+	'RC4' : ['pyCryptodomex','pyCryptodome','cryptography','pyCrypto','mbedtls','pure'],
 }
 
 available_modules = {
@@ -45,6 +44,7 @@ for prefname in pref_to_module:
 	if importlib.util.find_spec(pref_to_module[prefname]) is not None:
 		for k in available_modules:
 			available_modules[k].append(prefname)
+
 
 def get_cipher_by_name(ciphername, cryptolibname):
 	logging.debug('symmetric using "%s" for "%s"' % (cryptolibname, ciphername))
@@ -69,7 +69,7 @@ def get_preferred_cipher(ciphername):
 			raise Exception('Could not find any modules to load cipher "%s"' % ciphername)
 	else:
 		selected_module = override_library
-	
+
 	#print('Preferred module selected for cipher %s is %s' % (ciphername, selected_module))
 	return get_cipher_by_name(ciphername, selected_module)
 

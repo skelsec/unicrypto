@@ -41,6 +41,11 @@ available_modules = {
 override_library = None
 
 for prefname in pref_to_module:
+	try:
+		importlib.util.find_spec(pref_to_module[prefname])
+	except ModuleNotFoundError:
+		continue
+	
 	if importlib.util.find_spec(pref_to_module[prefname]) is not None:
 		for k in available_modules:
 			available_modules[k].append(prefname)

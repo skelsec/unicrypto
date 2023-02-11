@@ -1,5 +1,5 @@
 
-import unittest
+import pytest
 from unicrypto import get_cipher_by_name
 from unicrypto import symmetric
 
@@ -25,62 +25,52 @@ rc4_segments = [0, 16, 240, 256, 496, 512, 752, 768, 1008, 1024, 1520, 1536, 203
 
 
 
-class RC4Test:
-	def rc4_enc(self, cipherobj:symmetric.symmetricBASE, vector):
-		for i, res in enumerate(vector):
-			key, plaintext, ciphertext = res
-			plaintext = bytes.fromhex(plaintext)
-			key = bytes.fromhex(key)
-			ciphertext = bytes.fromhex(ciphertext)
 
-			ctx = cipherobj(key)
-			enc_data = ctx.encrypt(b'\x00'*5000)
-			ctx_dec = cipherobj(key)
-			dec_data = ctx_dec.decrypt(enc_data)
-			if dec_data != b'\x00'*5000:
-				raise Exception('RC4 decrypt failed!')
-			for i, start in enumerate(rc4_segments):
-				cstart = i*16
-				if enc_data[start:start+16] != ciphertext[cstart:cstart+16]:
-					raise Exception('Ciphertext doesnt match to vector! RC4 %s Cipher: \r\n%s \r\nVector: \r\n%s' % (i, enc_data[start:start+16].hex(), ciphertext[cstart:cstart+16].hex()))
+def rc4_enc(cipherobj:symmetric.symmetricBASE, vector):
+	for i, res in enumerate(vector):
+		key, plaintext, ciphertext = res
+		plaintext = bytes.fromhex(plaintext)
+		key = bytes.fromhex(key)
+		ciphertext = bytes.fromhex(ciphertext)
 
-		return True
+		ctx = cipherobj(key)
+		enc_data = ctx.encrypt(b'\x00'*5000)
+		ctx_dec = cipherobj(key)
+		dec_data = ctx_dec.decrypt(enc_data)
+		if dec_data != b'\x00'*5000:
+			raise Exception('RC4 decrypt failed!')
+		for i, start in enumerate(rc4_segments):
+			cstart = i*16
+			if enc_data[start:start+16] != ciphertext[cstart:cstart+16]:
+				raise Exception('Ciphertext doesnt match to vector! RC4 %s Cipher: \r\n%s \r\nVector: \r\n%s' % (i, enc_data[start:start+16].hex(), ciphertext[cstart:cstart+16].hex()))
 
+	return True
 
-class pureRC4(RC4Test, unittest.TestCase):
-	def setUp(self):
-		self.cipherobj = get_cipher_by_name('RC4', 'pure')
-	
-	def test_rc4(self):
-		self.rc4_enc(self.cipherobj, rc4_vectors)
+@pytest.mark.parametrize("cipherobj", [get_cipher_by_name('RC4', 'pure')])
+def test_rc4(cipherobj):
+	if str(cipherobj).find('pure.RC4') == -1:
+		raise Exception('Wrong cipher object!')
+	rc4_enc(cipherobj, rc4_vectors)
 
-class CryptoRC4(RC4Test, unittest.TestCase):
-	def setUp(self):
-		self.cipherobj = get_cipher_by_name('RC4', 'crypto')
-	
-	def test_rc4(self):
-		self.rc4_enc(self.cipherobj, rc4_vectors)
+#@pytest.mark.parametrize("cipherobj", [get_cipher_by_name('RC4', 'crypto')])
+#def test_rc4(cipherobj):
+#	rc4_enc(cipherobj, rc4_vectors)
 
-class pyCryptodomeRC4(RC4Test, unittest.TestCase):
-	def setUp(self):
-		self.cipherobj = get_cipher_by_name('RC4', 'pycryptodome')
-	
-	def test_rc4(self):
-		self.rc4_enc(self.cipherobj, rc4_vectors)
+@pytest.mark.parametrize("cipherobj", [get_cipher_by_name('RC4', 'pycryptodome')])
+def test_rc4(cipherobj):
+	rc4_enc(cipherobj, rc4_vectors)
 
-class MBEDTLSRC4(RC4Test, unittest.TestCase):
-	def setUp(self):
-		self.cipherobj = get_cipher_by_name('RC4', 'mbedtls')
-	
-	def test_rc4(self):
-		self.rc4_enc(self.cipherobj, rc4_vectors)
+@pytest.mark.parametrize("cipherobj", [get_cipher_by_name('RC4', 'pycryptodomex')])
+def test_rc4(cipherobj):
+	rc4_enc(cipherobj, rc4_vectors)
 
-class cryptographyRC4(RC4Test, unittest.TestCase):
-	def setUp(self):
-		self.cipherobj = get_cipher_by_name('RC4', 'cryptography')
-	
-	def test_rc4(self):
-		self.rc4_enc(self.cipherobj, rc4_vectors)
+@pytest.mark.parametrize("cipherobj", [get_cipher_by_name('RC4', 'mbedtls')])
+def test_rc4(cipherobj):
+	rc4_enc(cipherobj, rc4_vectors)
 
-if __name__ == '__main__':
-	unittest.main()
+@pytest.mark.parametrize("cipherobj", [get_cipher_by_name('RC4', 'cryptography')])
+def test_rc4(cipherobj):
+	if str(cipherobj).find('cryptography.RC4') == -1:
+		raise Exception('Wrong cipher object!')
+	rc4_enc(cipherobj, rc4_vectors)
+

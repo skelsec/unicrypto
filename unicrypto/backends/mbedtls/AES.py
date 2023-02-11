@@ -43,6 +43,8 @@ class AES(symmetricBASE):
 			#self._ccm_cipher_ctr.set_padding_mode(4)
 			#self._ccm_cipher_cbc.set_padding_mode(4)
 			return
+		elif self.mode == cipherMODE.GCM:
+			self._cipher = None #aad needed...
 
 		else:
 			raise Exception('Unknown cipher mode!')
@@ -51,12 +53,20 @@ class AES(symmetricBASE):
 	def encrypt(self, data, aad = None):
 		if self.mode == cipherMODE.CCM:
 			return self.__ccm_encrypt(data, aad)
+		elif self.mode == cipherMODE.GCM:
+			self._cipher = mbedcipher.AES.new(self.key, mbedcipher.MODE_GCM, self.IV, aad)
+			return self._cipher.encrypt(data)
 		
 		res = self._cipher.encrypt(data)
 		return res
+
 	def decrypt(self, data, aad = None, mac = None):
 		if self.mode == cipherMODE.CCM:
 			return self.__ccm_decrypt(data, aad, mac)
+		elif self.mode == cipherMODE.GCM:
+			if self._cipher is None:
+				self._cipher = mbedcipher.AES.new(self.key, mbedcipher.MODE_GCM, self.IV, aad)
+			return self._cipher.decrypt(data, mac)
 		
 		res = self._cipher.decrypt(data)
 		return res

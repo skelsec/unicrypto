@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import hashlib as __builtinHashlib
-from unicrypto import logging
+from unicrypto import logger
 
 class hashBASE():
 	def __init__(self, data:bytes):
@@ -29,7 +29,7 @@ class hashBASE():
 
 def hashselector(name:str, data:bytes = b''):
 	if name.lower() == 'md4':
-		logging.debug('hashlib using "pure" for "%s"' % name)
+		logger.debug('hashlib using "pure" for "%s"' % name)
 		from unicrypto.backends.pure.MD4 import MD4
 		return MD4(data)
 

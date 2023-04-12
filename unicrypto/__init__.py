@@ -3,11 +3,6 @@ import importlib.util
 import logging
 
 logger = logging.getLogger(__name__)
-handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.INFO)
 
 #https://stackoverflow.com/questions/8790003/dynamically-import-a-method-in-a-file-from-a-string
 def import_from(module, name):

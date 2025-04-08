@@ -34,7 +34,7 @@ def hashselector(name:str, data:bytes = b''):
 		return MD4(data)
 
 	if name.lower() in __builtinHashlib.algorithms_available:
-		logging.debug('hashlib using "builtin" for "%s"' % name)
+		logger.debug('hashlib using "builtin" for "%s"' % name)
 		return __builtinHashlib.new(name, data)
 	
 	raise NotImplementedError('Algorithm "%s" is not implemented!' % name)

@@ -42,10 +42,4 @@ setup(
 		"Programming Language :: Python :: 3.6",
 		"Operating System :: OS Independent",
 	],
-
-	## these libraries are optional
-	## lib can work without additional deps but it will be slow
-	install_requires=[
-		'pycryptodomex',
-	],
 )

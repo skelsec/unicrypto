@@ -47,7 +47,7 @@ for prefname in pref_to_module:
 
 
 def get_cipher_by_name(ciphername, cryptolibname):
-	logging.debug('symmetric using "%s" for "%s"' % (cryptolibname, ciphername))
+	logger.debug('symmetric using "%s" for "%s"' % (cryptolibname, ciphername))
 	moduleName = 'unicrypto.backends.%s.%s' % (cryptolibname.lower(), ciphername)
 	return import_from(moduleName , ciphername)
 
